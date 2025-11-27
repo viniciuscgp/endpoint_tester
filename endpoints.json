@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Get Lista de APPs",
+    "url": "https://narede.net/api/v1/apps",
+    "method": "GET",
+    "headers": {},
+    "body": ""
+  },
+  {
+    "name": "Relaliza pagamento manual do Remedio Certo",
+    "url": "https://narede.net/api/v1/stripe/manual-activate",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json",
+      "x-activation-secret": "***###CHAVEMANUAL###***\""
+    },
+    "body": "{\n  \"firebaseUID\":\"37Gg6I11gfaQidUCRXq0Cc1gpDq2\",\n  \"appKey\":\"remediocerto\"\n}"
+  }
+]

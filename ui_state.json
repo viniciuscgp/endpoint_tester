@@ -1,0 +1,13 @@
+{
+  "right_sashes": [
+    120,
+    276
+  ],
+  "geometry": "1496x897+143+134",
+  "fonts": {
+    "headers": 9,
+    "body": 9,
+    "response": 8
+  },
+  "main_sash": 353
+}
