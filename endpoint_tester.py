@@ -8,14 +8,28 @@ import json
 import os
 import shlex
 import subprocess
+import sys
+from pathlib import Path
 import tkinter as tk
 from tkinter import messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
 import tkinter.font as tkfont
 
 
-DATA_FILE = "endpoints.json"
-UI_STATE_FILE = "ui_state.json"
+def _resolve_base_dir() -> Path:
+    """
+    Usa a pasta do executavel/script como base para ler/gravar configuracoes.
+    """
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    if "__file__" in globals():
+        return Path(__file__).resolve().parent
+    return Path.cwd()
+
+
+BASE_DIR = _resolve_base_dir()
+DATA_FILE = BASE_DIR / "endpoints.json"
+UI_STATE_FILE = BASE_DIR / "ui_state.json"
 DEFAULT_METHOD = "GET"
 METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
 
@@ -275,13 +289,13 @@ class EndpointTester(tk.Tk):
             self.ui_state = {}
 
     def persist_endpoints(self) -> None:
-        tmp_path = DATA_FILE + ".tmp"
+        tmp_path = DATA_FILE.with_suffix(DATA_FILE.suffix + ".tmp")
         with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(self.endpoints, f, indent=2)
         os.replace(tmp_path, DATA_FILE)
 
     def persist_ui_state(self) -> None:
-        tmp_path = UI_STATE_FILE + ".tmp"
+        tmp_path = UI_STATE_FILE.with_suffix(UI_STATE_FILE.suffix + ".tmp")
         with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(self.ui_state, f, indent=2)
         os.replace(tmp_path, UI_STATE_FILE)
